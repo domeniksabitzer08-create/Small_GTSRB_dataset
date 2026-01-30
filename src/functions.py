@@ -21,6 +21,15 @@ def plot_img(data, index):
     plt.title(label)
     plt.show()
 
+def plot_bar_chart(x_labels, y_labels, x_name, y_name):
+    plt.figure(1, figsize=(18, 8))
+    plt.bar(x_labels, y_labels)
+    plt.xlabel(x_name)
+    plt.ylabel(y_name)
+    plt.xticks(range(0,len(x_labels)))
+
+    plt.show()
+
 def get_classes(data):
     labels = []
     for i in tqdm(range((len(data)))):
