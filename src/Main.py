@@ -14,14 +14,14 @@ import numpy as np
 from tqdm.auto import tqdm
 
 import functions
-from src.functions import plot_img
+
 
 # Get data
 train_data = torchvision.datasets.GTSRB(root="data", split = "train", transform=ToTensor() ,download=True)
 test_data = torchvision.datasets.GTSRB(root="data", split = "test", transform=ToTensor() ,download=True)
 
 # Creating a subset for faster testing - train and test data have the same lenght
-subset_lenght = 500
+subset_lenght = 600
 indicies = range(0, subset_lenght)
 train_data_sub = torch.utils.data.Subset(train_data, indicies)
 test_data_sub = torch.utils.data.Subset(test_data, indicies)
@@ -44,8 +44,8 @@ n_classes = 42 # Can be smaller for faster testing
 
 for i in tqdm(range(n_classes)):
     indexe = []
-    for j in range(len(test_data)):
-        img, label = test_data[j]
+    for j in range(len(test_data_sub)):
+        img, label = test_data_sub[j]
         if label == i:
             indexe.append(j)
     img_idx_per_class.append(indexe)
@@ -66,5 +66,8 @@ for i in range(len(img_idx_per_class)):
 
 print(f"Number of images per class: {len(classes)}")
 
+# plot a char of the numbers of images per class
 functions.plot_bar_chart(classes,n_img_per_class , "Classes", "Number of img")
+# plot one image per class
+functions.plot_img_per_class(test_data, classes)
 
