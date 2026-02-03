@@ -39,7 +39,7 @@ def get_classes(data):
     return classes
 
 def plot_img_per_class(data, classes):
-    for i in range (len(classes)):
+    for i in classes:
         img, label = data[i]
         plt.imshow(img.permute(1,2,0))
         plt.axis(False)

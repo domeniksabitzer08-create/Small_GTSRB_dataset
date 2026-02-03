@@ -2,8 +2,10 @@ from array import array
 
 import torch
 import torchvision
+from sympy.core.random import shuffle
 
 from torch.utils.data import Dataset, Subset
+from torch.utils.hipify.hipify_python import mapping
 
 from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor
@@ -14,6 +16,8 @@ import numpy as np
 from tqdm.auto import tqdm
 
 import functions
+import subset_functions
+from subset_functions import get_img_index_per_class
 
 
 # Get data
@@ -21,7 +25,7 @@ train_data = torchvision.datasets.GTSRB(root="data", split = "train", transform=
 test_data = torchvision.datasets.GTSRB(root="data", split = "test", transform=ToTensor() ,download=True)
 
 # Creating a subset for faster testing - train and test data have the same lenght
-subset_lenght = 600
+subset_lenght = 1000
 indicies = range(0, subset_lenght)
 train_data_sub = torch.utils.data.Subset(train_data, indicies)
 test_data_sub = torch.utils.data.Subset(test_data, indicies)
@@ -34,40 +38,36 @@ classes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 # Classes: soft coded
 # classes = functions.get_classes(test_data)
 
-
-# Get number of images of each class
-
-
-img_idx_per_class = []
-
 n_classes = 42 # Can be smaller for faster testing
 
-for i in tqdm(range(n_classes)):
-    indexe = []
-    for j in range(len(test_data_sub)):
-        img, label = test_data_sub[j]
-        if label == i:
-            indexe.append(j)
-    img_idx_per_class.append(indexe)
-
-print(img_idx_per_class)
-print(f"Shape: {len(img_idx_per_class)}")
+sub_classes = [22,33,34]
 
 
-# Print the lenght of each class and plot a example image
-#for i in range(len(img_idx_per_class)):
-    #print(f"Number of images in class {i+1}: {len(img_idx_per_class[i])}")
-    #plot_img(test_data_sub, img_idx_per_class[i][0])
+subset_indices = subset_functions.make_subset(n_classes ,sub_classes, test_data_sub, test_data_sub, balancing=True, n_max_imgs=None)
+label_mapping = subset_functions.get_map_label(sub_classes, subset_functions.get_img_index_per_class(n_classes,test_data_sub))
 
-# Getting the number of images per class
-n_img_per_class = []
-for i in range(len(img_idx_per_class)):
-    n_img_per_class.append(len(img_idx_per_class[i]))
+print(f"label after mapping: {label_mapping}")
 
-print(f"Number of images per class: {len(classes)}")
+train_data_sub_me = subset_functions.GTSRBSubset(test_data_sub, subset_indices,label_mapping)
+
+
+
+# try indexing and plotting
+#functions.plot_img(train_data_sub_me, 8)
+# plot all images
+print(f"len of my subset: {len(train_data_sub_me)}")
+for i in range(len(train_data_sub_me)):
+    print(i)
+    functions.plot_img(train_data_sub_me, i)
+
+
+
+
+
+
 
 # plot a char of the numbers of images per class
-functions.plot_bar_chart(classes,n_img_per_class , "Classes", "Number of img")
+#functions.plot_bar_chart(classes,subset_functions.get_number_of_imgs_per_class(subset_functions.get_img_index_per_class(n_classes, train_data_sub)) , "Classes", "Number of img")
 # plot one image per class
-functions.plot_img_per_class(test_data, classes)
+#functions.plot_img_per_class(test_data, classes)
 
