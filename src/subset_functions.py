@@ -18,7 +18,6 @@ from tqdm.auto import tqdm
 
 
 
-
 def get_img_index_per_class(n_classes: int, data: torch.utils.data.Dataset):
     """Gets all indexes from all classes and returns them as an array"""
     img_idx_per_class = []
@@ -67,10 +66,12 @@ def get_max_imgs(sub_classes: iter, data_idxs: list,  balancing : bool ,n_max_im
             return min(max_imgs)
 
 def get_map_label(sub_classes: iter, data_idxs: iter):
-    # create a list that index contains all elements to the label(index)
-    map_label = []
+    # create a dict where all labels
+    map_label = {}
+    counter = 0
     for i in sub_classes:
-        map_label.append(data_idxs[i])
+        map_label[i] = counter
+        counter += 1
     return map_label
 
 
@@ -88,7 +89,7 @@ def make_subset(n_classes: int, sub_classes: iter, full_train_data : torch.utils
     # get indices
     indices = get_indices(train_img_idxs, sub_classes, max_imgs)
     print(f"Inicies: {indices}")
-    return indices
+    return indices, train_img_idxs, test_img_idxs
 
 class GTSRBSubset(Dataset):
     """A Subset of the GTSRB Dataset."""
@@ -102,13 +103,8 @@ class GTSRBSubset(Dataset):
         return len(self.indices)
     def __getitem__(self, idx):
         original_idx = self.indices[idx]
-        # ich hab label und index vertauscht !!!
         image, original_label = self.base_dataset[original_idx]
-        for i in range(len(self.label_mapping)):
-            try:
-                new_label = self.label_mapping[i].index(original_label)
-            except ValueError:
-                pass
+        new_label = self.label_mapping[original_label]
 
         return image, new_label
 

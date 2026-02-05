@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tqdm.auto import tqdm
 
+import subset_functions
+from subset_functions import get_number_of_imgs_per_class
 
 
 
@@ -38,10 +40,10 @@ def get_classes(data):
     classes = set(labels)
     return classes
 
-def plot_img_per_class(data, classes):
+def plot_img_per_class(data, classes, img_idxs):
     for i in classes:
-        img, label = data[i]
+        img, label = data[img_idxs[i][randint(0,get_number_of_imgs_per_class(img_idxs)[i] -1)]]
         plt.imshow(img.permute(1,2,0))
         plt.axis(False)
-        plt.title(classes[i])
+        plt.title(i)
         plt.show()

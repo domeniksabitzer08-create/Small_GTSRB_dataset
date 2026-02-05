@@ -41,31 +41,23 @@ classes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 n_classes = 42 # Can be smaller for faster testing
 
 sub_classes = [22,33,34]
+classes_new = [0,1,2]
 
-
-subset_indices = subset_functions.make_subset(n_classes ,sub_classes, test_data_sub, test_data_sub, balancing=True, n_max_imgs=None)
-label_mapping = subset_functions.get_map_label(sub_classes, subset_functions.get_img_index_per_class(n_classes,test_data_sub))
+subset_indices, train_img_idxs, test_img_idxs = subset_functions.make_subset(n_classes ,sub_classes, test_data_sub, test_data_sub, balancing=True, n_max_imgs=None)
+label_mapping = subset_functions.get_map_label(sub_classes, train_img_idxs)
 
 print(f"label after mapping: {label_mapping}")
 
 train_data_sub_me = subset_functions.GTSRBSubset(test_data_sub, subset_indices,label_mapping)
 
-
-
-# try indexing and plotting
-#functions.plot_img(train_data_sub_me, 8)
-# plot all images
 print(f"len of my subset: {len(train_data_sub_me)}")
-for i in range(len(train_data_sub_me)):
-    print(i)
-    functions.plot_img(train_data_sub_me, i)
+# Plot one img per class
+functions.plot_img_per_class(train_data_sub_me, classes_new, subset_functions.get_img_index_per_class(len(classes_new), train_data_sub_me))
 
 
 
 
-
-
-
+# functions.plot_img_per_class(test_data_sub, classes, train_img_idxs)
 # plot a char of the numbers of images per class
 #functions.plot_bar_chart(classes,subset_functions.get_number_of_imgs_per_class(subset_functions.get_img_index_per_class(n_classes, train_data_sub)) , "Classes", "Number of img")
 # plot one image per class
