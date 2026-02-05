@@ -2,7 +2,9 @@ from random import randint
 import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
 
-from GTSRB_SubsetMaker.subset_functions import get_number_of_imgs_per_class
+import GTSRB_SubsetMaker
+from GTSRB_SubsetMaker import get_number_of_imgs_per_class
+
 
 
 
