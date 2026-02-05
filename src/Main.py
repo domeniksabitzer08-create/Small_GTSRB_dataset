@@ -40,15 +40,15 @@ classes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 
 n_classes = 42 # Can be smaller for faster testing
 
-sub_classes = [22,33,34]
-classes_new = [0,1,2]
+sub_classes = [22,33,34,12,18]
+classes_new = range(0, len(sub_classes))
 
-subset_indices, train_img_idxs, test_img_idxs = subset_functions.make_subset(n_classes ,sub_classes, test_data_sub, test_data_sub, balancing=True, n_max_imgs=None)
-label_mapping = subset_functions.get_map_label(sub_classes, train_img_idxs)
+#subset_indices, train_img_idxs, test_img_idxs = subset_functions.make_subset(n_classes ,sub_classes, test_data_sub, test_data_sub, balancing=True, n_max_imgs=None)
+#label_mapping = subset_functions.get_map_label(sub_classes, train_img_idxs)
 
-print(f"label after mapping: {label_mapping}")
+#print(f"label after mapping: {label_mapping}")
 
-train_data_sub_me = subset_functions.GTSRBSubset(test_data_sub, subset_indices,label_mapping)
+train_data_sub_me = subset_functions.GTSRBSubset(test_data_sub, n_classes, sub_classes, balancing=True, n_max_imgs=None)
 
 print(f"len of my subset: {len(train_data_sub_me)}")
 # Plot one img per class

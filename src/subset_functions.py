@@ -76,28 +76,24 @@ def get_map_label(sub_classes: iter, data_idxs: iter):
 
 
 
-def make_subset(n_classes: int, sub_classes: iter, full_train_data : torch.utils.data.dataset, full_test_data: torch.utils.data.dataset, balancing: bool, n_max_imgs: int = None):
+def make_subset(n_classes: int, sub_classes: iter, base_data : torch.utils.data.dataset, balancing: bool, n_max_imgs: int = None):
     # get the indexes and count of training and testing data
-    train_img_idxs = get_img_index_per_class(n_classes, full_train_data)
-    test_img_idxs = get_img_index_per_class(n_classes, full_test_data)
-    # get the number of imgs per class for balancing
-    train_img_count = get_number_of_imgs_per_class(train_img_idxs)
-    test_img_count = get_number_of_imgs_per_class(test_img_idxs)
+    img_idxs = get_img_index_per_class(n_classes, base_data)
     # get the max imgs
-    max_imgs = get_max_imgs(sub_classes, train_img_idxs, balancing, n_max_imgs)
+    max_imgs = get_max_imgs(sub_classes, img_idxs, balancing, n_max_imgs)
     print(f"max images: {max_imgs}")
     # get indices
-    indices = get_indices(train_img_idxs, sub_classes, max_imgs)
+    indices = get_indices(img_idxs, sub_classes, max_imgs)
     print(f"Inicies: {indices}")
-    return indices, train_img_idxs, test_img_idxs
+    return indices, img_idxs
 
 class GTSRBSubset(Dataset):
     """A Subset of the GTSRB Dataset."""
 
-    def __init__(self, base_dataset, indices, label_mapping):
+    def __init__(self, base_dataset, n_classes, sub_classes, balancing, n_max_imgs=None):
         self.base_dataset = base_dataset
-        self.indices = indices
-        self.label_mapping = label_mapping
+        self.indices, self.img_idxs = make_subset(n_classes, sub_classes, base_dataset, balancing, n_max_imgs)
+        self.label_mapping = get_map_label(sub_classes, self.img_idxs)
 
     def __len__(self):
         return len(self.indices)
