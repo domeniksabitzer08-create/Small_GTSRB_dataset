@@ -1,17 +1,8 @@
-import torch
-import torchvision
-from matplotlib.pyplot import plot_date
-
-from torchvision import datasets, transforms
-from torchvision.transforms import ToTensor
-
 from random import randint
 import matplotlib.pyplot as plt
-import numpy as np
 from tqdm.auto import tqdm
 
-import subset_functions
-from subset_functions import get_number_of_imgs_per_class
+from GTSRB_SubsetMaker.subset_functions import get_number_of_imgs_per_class
 
 
 

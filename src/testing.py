@@ -1,24 +1,10 @@
-from array import array
-
 import torch
 import torchvision
-from sympy.core.random import shuffle
 
-from torch.utils.data import Dataset, Subset
-from torch.utils.hipify.hipify_python import mapping
-
-from torchvision import datasets, transforms
 from torchvision.transforms import ToTensor
 
-from random import randint
-import matplotlib.pyplot as plt
-import numpy as np
-from tqdm.auto import tqdm
-
 import functions
-import subset_functions
-from subset_functions import get_img_index_per_class
-
+from GTSRB_SubsetMaker import subset_functions
 
 # Get data
 train_data = torchvision.datasets.GTSRB(root="data", split = "train", transform=ToTensor() ,download=True)
