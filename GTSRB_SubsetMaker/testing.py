@@ -3,8 +3,7 @@ import torchvision
 
 from torchvision.transforms import ToTensor
 
-import functions
-from GTSRB_SubsetMaker import subset_functions
+from GTSRB_SubsetMaker import subset_functions, functions
 
 # Get data
 train_data = torchvision.datasets.GTSRB(root="data", split = "train", transform=ToTensor() ,download=True)
