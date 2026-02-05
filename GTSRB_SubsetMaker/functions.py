@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
 
 import GTSRB_SubsetMaker
-from GTSRB_SubsetMaker import get_number_of_imgs_per_class
+from subset_functions import get_number_of_imgs_per_class
 
 
 
