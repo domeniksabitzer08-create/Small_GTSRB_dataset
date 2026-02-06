@@ -34,7 +34,7 @@ def get_number_of_imgs_per_class(img_idx_per_class: list):
     """Counts the number of images per class and returns them as an array"""
     n_img_per_class = []
     for i in img_idx_per_class:
-        n_img_per_class.append(len(img_idx_per_class[i]))
+        n_img_per_class.append(len(i))
     return n_img_per_class
 
 
