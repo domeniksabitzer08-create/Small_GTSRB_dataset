@@ -18,10 +18,10 @@ from tqdm.auto import tqdm
 
 
 
-def get_img_index_per_class(n_classes: int, data: torch.utils.data.Dataset):
+def get_img_index_per_class(sub_classes: iter, data: torch.utils.data.Dataset):
     """Gets all indexes from all classes and returns them as an array"""
     img_idx_per_class = []
-    for i in tqdm(range(n_classes)):
+    for i in tqdm(sub_classes):
         indexe = []
         for j in range(len(data)):
             img, label = data[j]
@@ -78,12 +78,13 @@ def get_map_label(sub_classes: iter, data_idxs: iter):
 
 def make_subset(n_classes: int, sub_classes: iter, base_data : torch.utils.data.dataset, balancing: bool, n_max_imgs: int = None):
     # get the indexes and count of training and testing data
-    img_idxs = get_img_index_per_class(n_classes, base_data)
+    img_idxs = get_img_index_per_class(sub_classes, base_data)
     # get the max imgs
-    max_imgs = get_max_imgs(sub_classes, img_idxs, balancing, n_max_imgs)
+    new_classes = range(0, len(img_idxs))
+    max_imgs = get_max_imgs(new_classes, img_idxs, balancing, n_max_imgs)
     print(f"max images: {max_imgs}")
     # get indices
-    indices = get_indices(img_idxs, sub_classes, max_imgs)
+    indices = get_indices(data_idxs=img_idxs, sub_classes=new_classes, max_imgs=max_imgs)
     print(f"Inicies: {indices}")
     return indices, img_idxs
 

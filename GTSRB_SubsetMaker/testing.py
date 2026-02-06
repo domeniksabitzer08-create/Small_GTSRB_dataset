@@ -37,7 +37,7 @@ train_data_sub_me = subset_functions.GTSRBSubset(test_data_sub, n_classes, sub_c
 
 print(f"len of my subset: {len(train_data_sub_me)}")
 # Plot one img per class
-functions.plot_img_per_class(train_data_sub_me, classes_new, subset_functions.get_img_index_per_class(len(classes_new), train_data_sub_me))
+functions.plot_img_per_class(train_data_sub_me, classes_new, subset_functions.get_img_index_per_class(classes_new, train_data_sub_me))
 
 
 
