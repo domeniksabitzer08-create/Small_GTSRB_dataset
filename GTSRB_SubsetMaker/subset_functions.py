@@ -33,7 +33,7 @@ def get_img_index_per_class(sub_classes: iter, data: torch.utils.data.Dataset):
 def get_number_of_imgs_per_class(img_idx_per_class: list):
     """Counts the number of images per class and returns them as an array"""
     n_img_per_class = []
-    for i in range(len(img_idx_per_class)):
+    for i in img_idx_per_class:
         n_img_per_class.append(len(img_idx_per_class[i]))
     return n_img_per_class
 

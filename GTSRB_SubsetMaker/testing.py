@@ -33,7 +33,7 @@ classes_new = range(0, len(sub_classes))
 
 #print(f"label after mapping: {label_mapping}")
 
-train_data_sub_me = subset_functions.GTSRBSubset(test_data_sub, n_classes, sub_classes, balancing=True, n_max_imgs=None)
+train_data_sub_me = subset_functions.GTSRBSubset(train_data, n_classes, sub_classes, balancing=True, n_max_imgs=None)
 
 print(f"len of my subset: {len(train_data_sub_me)}")
 # Plot one img per class
