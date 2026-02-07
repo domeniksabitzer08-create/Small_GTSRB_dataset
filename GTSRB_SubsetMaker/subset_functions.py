@@ -30,6 +30,10 @@ def get_img_index_per_class(sub_classes: iter, data: torch.utils.data.Dataset):
         img_idx_per_class.append(indexe)
     return img_idx_per_class
 
+
+
+
+
 def get_number_of_imgs_per_class(img_idx_per_class: list):
     """Counts the number of images per class and returns them as an array"""
     n_img_per_class = []
@@ -86,6 +90,7 @@ def make_subset(n_classes: int, sub_classes: iter, base_data : torch.utils.data.
     # get indices
     indices = get_indices(data_idxs=img_idxs, sub_classes=new_classes, max_imgs=max_imgs)
     print(f"Inicies: {indices}")
+    print(f"img_idxs shape: 1. dim: {len(img_idxs)}")
     return indices, img_idxs
 
 class GTSRBSubset(Dataset):

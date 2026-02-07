@@ -1,5 +1,6 @@
 import torch
 import torchvision
+from numpy.ma.core import indices
 
 from torchvision.transforms import ToTensor
 
@@ -33,10 +34,15 @@ classes_new = range(0, len(sub_classes))
 
 #print(f"label after mapping: {label_mapping}")
 
-train_data_sub_me = subset_functions.GTSRBSubset(train_data, n_classes, sub_classes, balancing=True, n_max_imgs=None)
+train_data_sub_me = subset_functions.GTSRBSubset(test_data_sub, n_classes, sub_classes, balancing=True, n_max_imgs=None)
 
 print(f"len of my subset: {len(train_data_sub_me)}")
 # Plot one img per class
+
+indices_from_make_function, img_idxs_from_function =  subset_functions.make_subset(n_classes, sub_classes, test_data_sub, balancing=True, n_max_imgs=None)
+print(f"Img idxs value from Make Subset function: { img_idxs_from_function }")
+print(f"\nImg idxs value from function: { subset_functions.get_img_index_per_class(classes_new, test_data_sub) }")
+print(f"Img idxs value from field: {train_data_sub_me.img_idxs}")
 functions.plot_img_per_class(train_data_sub_me, classes_new, subset_functions.get_img_index_per_class(classes_new, train_data_sub_me))
 
 

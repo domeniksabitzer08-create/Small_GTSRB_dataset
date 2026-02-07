@@ -35,7 +35,9 @@ def get_classes(data):
 
 def plot_img_per_class(data, classes, img_idxs):
     for i in classes:
-        img, label = data[img_idxs[i][randint(0,get_number_of_imgs_per_class(img_idxs)[i] -1)]]
+        rnd_idx = randint(0,get_number_of_imgs_per_class(img_idxs)[i] -1)
+        print(f"Random img index: {rnd_idx}")
+        img, label = data[img_idxs[i][rnd_idx]]
         plt.imshow(img.permute(1,2,0))
         plt.axis(False)
         plt.title(i)
